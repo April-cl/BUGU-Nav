@@ -118,7 +118,51 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"main.js":[function(require,module,exports) {
+var $siteList = $(".siteList");
+var $addButton = $siteList.find("li.addButton");
+var collection = localStorage.getItem("collection");
+var collectionObject = JSON.parse(collection);
+var hasMap = collectionObject || [{
+  logo: "A",
+  url: "https://www.acfun.cn"
+}, {
+  logo: "B",
+  url: "https://www.bilibili.com"
+}];
 
+var simplifyUrl = function simplifyUrl(url) {
+  return url.replace("https://", "").replace("http://", "").replace("www.", "").replace(/\/.*/, "");
+};
+
+var render = function render() {
+  $siteList.find("li:not(.addButton)").remove();
+  hasMap.forEach(function (node, index) {
+    var $li = $("<li class=\"site\">\n          <div class=\"siteLogo\">".concat(node.logo, "</div>\n          <div class=\"siteLink\">").concat(node.url, "</div>\n        </li>")).insertBefore($addButton);
+    $li.on("click", function () {
+      window.open(node.url);
+    });
+  });
+};
+
+render();
+$(".addButton").on("click", function () {
+  var url = window.prompt("你要去哪冲浪？");
+
+  if (url.indexOf("http") !== 0) {
+    url = "https://" + url;
+  }
+
+  hasMap.push({
+    logo: simplifyUrl(url)[0].toUpperCase(),
+    url: url
+  });
+  render();
+});
+
+window.onbeforeunload = function () {
+  var string = JSON.stringify(hasMap);
+  localStorage.setItem("collection", string);
+};
 },{}],"C:/Users/xcl82/AppData/Local/Yarn/Data/global/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -147,7 +191,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62923" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60884" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

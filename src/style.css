@@ -88,6 +88,11 @@ body {
   border: 1px solid #ddd;
   background: white;
   padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
 }
 .globalMain .siteList .addButton .icon-wrapper {
   width: 64px;
