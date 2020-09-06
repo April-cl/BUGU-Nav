@@ -137,9 +137,14 @@ var simplifyUrl = function simplifyUrl(url) {
 var render = function render() {
   $siteList.find("li:not(.addButton)").remove();
   hasMap.forEach(function (node, index) {
-    var $li = $("<li class=\"site\">\n          <div class=\"siteLogo\">".concat(node.logo, "</div>\n          <div class=\"siteLink\">").concat(node.url, "</div>\n          <div class=\"close\"><svg class=\"icon\" aria-hidden=\"true\">\n    <use xlink:href=\"#icon-baseline-close-px\"></use>\n</svg></div>\n        </li>")).insertBefore($addButton);
+    var $li = $("<li class=\"site\">\n          <div class=\"siteLogo\">".concat(node.logo, "</div>\n          <div class=\"siteLink\">").concat(simplifyUrl(node.url), "</div>\n          <div class=\"close\"><svg class=\"icon\" aria-hidden=\"true\">\n    <use xlink:href=\"#icon-baseline-close-px\"></use>\n</svg></div>\n        </li>")).insertBefore($addButton);
     $li.on("click", function () {
       window.open(node.url);
+    });
+    $li.on("click", ".close", function (e) {
+      e.stopPropagation();
+      hasMap.splice(index, 1);
+      render();
     });
   });
 };
@@ -163,6 +168,16 @@ window.onbeforeunload = function () {
   var string = JSON.stringify(hasMap);
   localStorage.setItem("collection", string);
 };
+
+$(document).on("keypress", function (e) {
+  var key = e.key;
+
+  for (var i = 0; i < hasMap.length; i++) {
+    if (hasMap[i].logo.toLowerCase() === key) {
+      window.open(hasMap[i].url);
+    }
+  }
+});
 },{}],"C:/Users/xcl82/AppData/Local/Yarn/Data/global/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

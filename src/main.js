@@ -25,13 +25,18 @@ const render = () => {
   hasMap.forEach((node, index) => {
     const $li = $(`<li class="site">
           <div class="siteLogo">${node.logo}</div>
-          <div class="siteLink">${node.url}</div>
+          <div class="siteLink">${simplifyUrl(node.url)}</div>
           <div class="close"><svg class="icon" aria-hidden="true">
     <use xlink:href="#icon-baseline-close-px"></use>
 </svg></div>
         </li>`).insertBefore($addButton);
     $li.on("click", () => {
       window.open(node.url);
+    });
+    $li.on("click", ".close", (e) => {
+      e.stopPropagation();
+      hasMap.splice(index, 1);
+      render();
     });
   });
 };
@@ -54,3 +59,12 @@ window.onbeforeunload = () => {
   const string = JSON.stringify(hasMap);
   localStorage.setItem("collection", string);
 };
+
+$(document).on("keypress", (e) => {
+  const { key } = e;
+  for (let i = 0; i < hasMap.length; i++) {
+    if (hasMap[i].logo.toLowerCase() === key) {
+      window.open(hasMap[i].url);
+    }
+  }
+});
