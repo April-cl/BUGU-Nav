@@ -26,6 +26,9 @@ const render = () => {
     const $li = $(`<li class="site">
           <div class="siteLogo">${node.logo}</div>
           <div class="siteLink">${node.url}</div>
+          <div class="close"><svg class="icon" aria-hidden="true">
+    <use xlink:href="#icon-baseline-close-px"></use>
+</svg></div>
         </li>`).insertBefore($addButton);
     $li.on("click", () => {
       window.open(node.url);
@@ -36,7 +39,7 @@ const render = () => {
 render();
 
 $(".addButton").on("click", () => {
-  let url = window.prompt("你要去哪冲浪？");
+  let url = window.prompt("添加网址");
   if (url.indexOf("http") !== 0) {
     url = "https://" + url;
   }
