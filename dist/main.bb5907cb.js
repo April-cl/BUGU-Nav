@@ -179,4 +179,4 @@ $(document).on("keypress", function (e) {
   }
 });
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=https://april-cl.github.io/BUGU-Nav/dist/main.bb5907cb.js.map
+//# sourceMappingURL=main.bb5907cb.js.map
